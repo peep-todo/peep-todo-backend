@@ -7,7 +7,7 @@ import peep.com.todo_backend.category.domain.Category;
 import java.util.Optional;
 
 @Repository
-public interface CategoryJpaRepository extends JpaRepository<Category, Integer> {
+public interface CategoryJpaRepository extends JpaRepository<Category, Integer>, CategoryJpaCustomRepository {
 
     //이름으로 조회
     Optional<Category> findByName(String name);

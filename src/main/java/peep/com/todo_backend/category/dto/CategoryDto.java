@@ -23,9 +23,4 @@ public class CategoryDto {
     @NotNull(message = "색상은 필수값입니다.")
     private String color;
 
-    @Schema(description = "카테고리 타입", example = "PERSONAL")
-    @NotNull(message = "카테고리 타입은 필수값입니다.")
-    private Type type;
-
-
 }

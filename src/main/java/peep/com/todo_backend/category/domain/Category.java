@@ -9,6 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import peep.com.todo_backend.global.domain.BaseTimeEntity;
 import peep.com.todo_backend.global.enums.TeamUserRole;
 import peep.com.todo_backend.global.enums.Type;
+import peep.com.todo_backend.team.domain.Team;
 import peep.com.todo_backend.user.domain.User;
 
 import java.time.LocalDateTime;
@@ -27,13 +28,21 @@ public class Category extends BaseTimeEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer categoryId;
 
-    @Comment("유저ID")
-    @Column(name = "user_id")
-    private Integer userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
-    @Comment("팀ID")
-    @Column(name = "teamId")
-    private Integer teamId;
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
+
+    @Comment("색상")
+    @Column(length = 10, nullable = false, name = "color")
+    private String color;
+
+    @Comment("상단 고정 여부")
+    @Column(nullable = false, name = "is_pinned")
+    private boolean isPinned;
 
     @Comment("카테고리 이름")
     @Column(length = 50, nullable = false, name = "name")
@@ -43,20 +52,6 @@ public class Category extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, name = "type")
     private Type type;
-
-    @Comment("색상")
-    @Column(length = 10, nullable = false, name = "color")
-    private String color;
-
-//    @Comment("생성시간")
-//    @CreatedDate
-//    @Column(nullable = false, name = "created_date")
-//    private LocalDateTime createdDate;
-//
-//    @Comment("수정시간")
-//    @LastModifiedDate
-//    @Column(nullable = false, name = "modified_date")
-//    private LocalDateTime modifiedDate;
 
     @Comment("삭제여부")
     @Column(nullable = false, name = "is_deleted")
