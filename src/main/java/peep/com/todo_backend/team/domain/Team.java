@@ -21,6 +21,7 @@ import org.hibernate.annotations.Comment;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import peep.com.todo_backend.category.domain.Category;
 import peep.com.todo_backend.global.domain.BaseTimeEntity;
 
 @Entity
@@ -73,4 +74,8 @@ public class Team extends BaseTimeEntity {
     @JsonManagedReference
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<TeamUser> teamUsers;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Category> teamCategory;
 }
