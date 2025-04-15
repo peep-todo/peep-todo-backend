@@ -10,8 +10,7 @@ import peep.com.todo_backend.user.domain.User;
 
 @Entity
 @Getter
-@Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
 @Table(name = "TB_CATEGORY")
