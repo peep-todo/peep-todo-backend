@@ -10,6 +10,7 @@ import peep.com.todo_backend.user.domain.User;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -33,18 +34,14 @@ public class Category extends BaseTimeEntity {
     private String color;
 
     @Comment("카테고리 상단 고정")
-    @Column(nullable = false)
-    private boolean pinned;
-
-    @Comment("삭제 여부")
-    @Column(nullable = false, name = "is_deleted")
-    private boolean isDeleted;
+    @Column(nullable = false, name = "is_pinned")
+    private boolean isPinned;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = true)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "team_id", nullable = false)
+    @JoinColumn(name = "team_id", nullable = true)
     private Team team;
 }
