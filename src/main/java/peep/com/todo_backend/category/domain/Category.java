@@ -32,6 +32,10 @@ public class Category extends BaseTimeEntity {
     @Column(length = 7, nullable = false, name = "color")
     private String color;
 
+    @Comment("카테고리 상단 고정")
+    @Column(nullable = false)
+    private boolean pinned;
+
     @Comment("삭제 여부")
     @Column(nullable = false, name = "is_deleted")
     private boolean isDeleted;
