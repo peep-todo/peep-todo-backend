@@ -97,4 +97,40 @@ public final class ApiSuccessResponse {
             "    \"teamToken\": null\r\n" + //
             "  }\r\n" + //
             "}";
+
+    public static final String CATEGORY_SAVE = "{\r\n" + //
+        "  \"statusCode\": \"OK\",\r\n" + //
+        "  \"resultMsg\": \"SUCCESS\",\r\n" + //
+        "  \"resultDetail\": \"카테고리 생성 성공\",\r\n" + //
+        "  \"resultData\": \"null\"\r\n" + //
+        "}";
+
+    public static final String CATEGORY_GET = "{\n"
+        + "  \"statusCode\": \"OK\",\n"
+        + "  \"resultMsg\": \"SUCCESS\",\n"
+        + "  \"resultDetail\": \"카테고리 목록 조회 성공\",\n"
+        + "  \"resultData\": [\n"
+        + "    {\n"
+        + "      \"categoryId\": 1,\n"
+        + "      \"name\": \"알바\",\n"
+        + "      \"color\": \"#CBACFF\",\n"
+        + "      \"pinned\": false,\n"
+        + "      \"categoryType\": \"PERSONAL\"\n"
+        + "    }\n"
+        + "  ]\n"
+        + "}";
+
+    public static final String CATEGORY_UPDATE = "{\r\n" + //
+        "  \"statusCode\": \"OK\",\r\n" + //
+        "  \"resultMsg\": \"SUCCESS\",\r\n" + //
+        "  \"resultDetail\": null,\r\n" + //
+        "  \"resultData\": \"카테고리 수정 성공\"\r\n" + //
+        "}";
+
+    public static final String CATEGORY_DELETE = "{\r\n" + //
+        "  \"statusCode\": \"OK\",\r\n" + //
+        "  \"resultMsg\": \"SUCCESS\",\r\n" + //
+        "  \"resultDetail\": null,\r\n" + //
+        "  \"resultData\": \"카테고리 삭제 성공\"\r\n" + //
+        "} ";
 }

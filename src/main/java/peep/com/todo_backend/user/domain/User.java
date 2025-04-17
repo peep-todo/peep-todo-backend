@@ -22,6 +22,7 @@ import org.hibernate.annotations.Comment;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import peep.com.todo_backend.category.domain.Category;
 import peep.com.todo_backend.global.domain.BaseTimeEntity;
 import peep.com.todo_backend.global.enums.UserRole;
 import peep.com.todo_backend.team.domain.TeamUser;
@@ -80,4 +81,7 @@ public class User extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "toUser", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Friend> receivedFriendRequests;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Category> userCategory;
 }
