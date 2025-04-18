@@ -112,4 +112,39 @@ public class TeamService {
                 return teamUserJpaRepository.findTeamsByUserIdAndRole(userId, TeamUserRole.ADMIN);
         }
 
+        // 팀 정보 수정
+        public TeamResponseDto updateTeam(Integer teamId, TeamSaveDto dto, Integer userId) {
+                Team team = teamJpaRepository.findById(teamId)
+                    .orElseThrow(() -> new BadRequestException("존재하지 않는 팀입니다."));
+
+                // 관리자인지 확인
+                boolean isAdmin = teamUserJpaRepository.existsByTeamAndUserAndTeamUserRole(team,
+                    userJpaRepository.findById(userId).orElseThrow(() -> new BadRequestException("유저를 찾을 수 없습니다.")),
+                    TeamUserRole.ADMIN);
+                if (!isAdmin) {
+                        throw new BadRequestException("관리자만 팀 정보를 수정할 수 있습니다.");
+                }
+
+                team.setName(dto.getName());
+                team.setProjectName(dto.getProjectName());
+                team.setDescription(dto.getDescription());
+
+                return TeamDtoConverter.toResponseDto(team);
+        }
+
+        // 팀 삭제
+        public void deleteTeam(Integer teamId, Integer userId) {
+                Team team = teamJpaRepository.findById(teamId)
+                    .orElseThrow(() -> new BadRequestException("존재하지 않는 팀입니다."));
+
+                boolean isAdmin = teamUserJpaRepository.existsByTeamAndUserAndTeamUserRole(team,
+                    userJpaRepository.findById(userId).orElseThrow(() -> new BadRequestException("유저를 찾을 수 없습니다.")),
+                    TeamUserRole.ADMIN);
+                if (!isAdmin) {
+                        throw new BadRequestException("관리자만 팀을 삭제할 수 있습니다.");
+                }
+
+                teamJpaRepository.delete(team);
+        }
+
 }
