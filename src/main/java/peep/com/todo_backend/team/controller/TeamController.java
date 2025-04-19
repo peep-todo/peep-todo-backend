@@ -25,6 +25,7 @@ import peep.com.todo_backend.global.customAnnotation.swagger.SwaggerInternetServ
 import peep.com.todo_backend.global.dto.ResultDto;
 import peep.com.todo_backend.team.dto.TeamResponseDto;
 import peep.com.todo_backend.team.dto.TeamSaveDto;
+import peep.com.todo_backend.team.dto.TeamUpdateDto;
 import peep.com.todo_backend.team.service.TeamService;
 
 @RestController
@@ -60,11 +61,11 @@ public class TeamController {
     @SwaggerInternetServerError
     @PutMapping("/updateTeam")
     public ResponseEntity<?> updateTeam(
-        @RequestParam Integer teamId,
-        @Valid @RequestBody TeamSaveDto dto,
+        @Valid @RequestBody TeamUpdateDto dto,
+        @RequestParam("teamId") Integer teamId,
         @AuthenticationPrincipal Integer userId) {
 
-        TeamResponseDto updatedTeam = teamService.updateTeam(teamId, dto, userId);
+        TeamResponseDto updatedTeam = teamService.updateTeam(dto, teamId, userId);
         return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "SUCCESS", "팀 수정 성공", updatedTeam));
     }
 
@@ -73,7 +74,7 @@ public class TeamController {
     @SwaggerInternetServerError
     @DeleteMapping("/deleteTeam")
     public ResponseEntity<?> deleteTeam(
-        @RequestParam Integer teamId,
+        @RequestParam("teamId") Integer teamId,
         @AuthenticationPrincipal Integer userId) {
 
         teamService.deleteTeam(teamId, userId);

@@ -17,6 +17,7 @@ import peep.com.todo_backend.team.domain.Team;
 import peep.com.todo_backend.team.domain.TeamUser;
 import peep.com.todo_backend.team.dto.TeamResponseDto;
 import peep.com.todo_backend.team.dto.TeamSaveDto;
+import peep.com.todo_backend.team.dto.TeamUpdateDto;
 import peep.com.todo_backend.team.dto.dtoConverter.TeamDtoConverter;
 import peep.com.todo_backend.team.repository.TeamJpaRepository;
 import peep.com.todo_backend.team.repository.TeamUserJpaRepository;
@@ -113,7 +114,7 @@ public class TeamService {
         }
 
         // 팀 정보 수정
-        public TeamResponseDto updateTeam(Integer teamId, TeamSaveDto dto, Integer userId) {
+        public TeamResponseDto updateTeam(TeamUpdateDto dto, Integer teamId, Integer userId) {
                 Team team = teamJpaRepository.findById(teamId)
                     .orElseThrow(() -> new BadRequestException("존재하지 않는 팀입니다."));
 
@@ -128,7 +129,10 @@ public class TeamService {
                 team.setName(dto.getName());
                 team.setProjectName(dto.getProjectName());
                 team.setDescription(dto.getDescription());
+                team.setStartDate(dto.getStartDate());
+                team.setEndDate(dto.getEndDate());
 
+                teamJpaRepository.save(team);
                 return TeamDtoConverter.toResponseDto(team);
         }
 
