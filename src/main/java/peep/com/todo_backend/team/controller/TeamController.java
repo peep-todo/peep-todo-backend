@@ -9,8 +9,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +25,7 @@ import peep.com.todo_backend.global.customAnnotation.swagger.SwaggerInternetServ
 import peep.com.todo_backend.global.dto.ResultDto;
 import peep.com.todo_backend.team.dto.TeamResponseDto;
 import peep.com.todo_backend.team.dto.TeamSaveDto;
+import peep.com.todo_backend.team.dto.TeamUpdateDto;
 import peep.com.todo_backend.team.service.TeamService;
 
 @RestController
@@ -51,5 +54,30 @@ public class TeamController {
         TeamResponseDto responseDto = teamService.getTeam(teamToken);
 
         return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "SUCCESS", "팀 정보 조회 성공", responseDto));
+    }
+
+    @SwaggerApiSuccess(summary = "팀 수정", description = "팀 정보를 수정합니다.", value = ApiSuccessResponse.TEAM_UPDATE)
+    @SwaggerApiNotFoundError
+    @SwaggerInternetServerError
+    @PutMapping("/updateTeam")
+    public ResponseEntity<?> updateTeam(
+        @Valid @RequestBody TeamUpdateDto dto,
+        @RequestParam("teamId") Integer teamId,
+        @AuthenticationPrincipal Integer userId) {
+
+        TeamResponseDto updatedTeam = teamService.updateTeam(dto, teamId, userId);
+        return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "SUCCESS", "팀 수정 성공", updatedTeam));
+    }
+
+    @SwaggerApiSuccess(summary = "팀 삭제", description = "팀을 삭제합니다.", value = ApiSuccessResponse.TEAM_DELETE)
+    @SwaggerApiNotFoundError
+    @SwaggerInternetServerError
+    @DeleteMapping("/deleteTeam")
+    public ResponseEntity<?> deleteTeam(
+        @RequestParam("teamId") Integer teamId,
+        @AuthenticationPrincipal Integer userId) {
+
+        teamService.deleteTeam(teamId, userId);
+        return ResponseEntity.ok(ResultDto.res(HttpStatus.OK, "SUCCESS", "팀 삭제 성공"));
     }
 }

@@ -64,10 +64,6 @@ public class Team extends BaseTimeEntity {
     @Column(name = "invite_expiry")
     private LocalDateTime inviteExpiry;
 
-    @Comment("삭제 여부")
-    @Column(nullable = false, name = "is_deleted")
-    private boolean isDeleted;
-
     @Column(unique = true, nullable = false)
     private String teamToken;
 

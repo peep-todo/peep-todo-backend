@@ -98,6 +98,20 @@ public final class ApiSuccessResponse {
             "  }\r\n" + //
             "}";
 
+    public static final String TEAM_UPDATE = "{\r\n" + //
+        "  \"statusCode\": \"OK\",\r\n" + //
+        "  \"resultMsg\": \"SUCCESS\",\r\n" + //
+        "  \"resultDetail\": null,\r\n" + //
+        "  \"resultData\": \"팀 수정 성공\"\r\n" + //
+        "}";
+
+    public static final String TEAM_DELETE = "{\r\n" + //
+        "  \"statusCode\": \"OK\",\r\n" + //
+        "  \"resultMsg\": \"SUCCESS\",\r\n" + //
+        "  \"resultDetail\": null,\r\n" + //
+        "  \"resultData\": \"팀 삭제 성공\"\r\n" + //
+        "} ";
+
     public static final String CATEGORY_SAVE = "{\r\n" + //
         "  \"statusCode\": \"OK\",\r\n" + //
         "  \"resultMsg\": \"SUCCESS\",\r\n" + //

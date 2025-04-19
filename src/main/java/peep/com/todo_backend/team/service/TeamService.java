@@ -17,6 +17,7 @@ import peep.com.todo_backend.team.domain.Team;
 import peep.com.todo_backend.team.domain.TeamUser;
 import peep.com.todo_backend.team.dto.TeamResponseDto;
 import peep.com.todo_backend.team.dto.TeamSaveDto;
+import peep.com.todo_backend.team.dto.TeamUpdateDto;
 import peep.com.todo_backend.team.dto.dtoConverter.TeamDtoConverter;
 import peep.com.todo_backend.team.repository.TeamJpaRepository;
 import peep.com.todo_backend.team.repository.TeamUserJpaRepository;
@@ -48,7 +49,6 @@ public class TeamService {
                                 .teamToken(teamToken)
                                 .inviteLink("https://localhost:8080/invite/" + teamToken)
                                 .inviteExpiry(LocalDateTime.now().plusDays(7))
-                                .isDeleted(false)
                                 .build();
 
                 team = teamJpaRepository.save(team);
@@ -110,6 +110,44 @@ public class TeamService {
 
         public List<Team> findPersonalTeamList(Integer userId) {
                 return teamUserJpaRepository.findTeamsByUserIdAndRole(userId, TeamUserRole.ADMIN);
+        }
+
+        // 팀 정보 수정
+        public TeamResponseDto updateTeam(TeamUpdateDto dto, Integer teamId, Integer userId) {
+                Team team = teamJpaRepository.findById(teamId)
+                    .orElseThrow(() -> new BadRequestException("존재하지 않는 팀입니다."));
+
+                // 관리자인지 확인
+                boolean isAdmin = teamUserJpaRepository.existsByTeamAndUserAndTeamUserRole(team,
+                    userJpaRepository.findById(userId).orElseThrow(() -> new BadRequestException("유저를 찾을 수 없습니다.")),
+                    TeamUserRole.ADMIN);
+                if (!isAdmin) {
+                        throw new BadRequestException("관리자만 팀 정보를 수정할 수 있습니다.");
+                }
+
+                team.setName(dto.getName());
+                team.setProjectName(dto.getProjectName());
+                team.setDescription(dto.getDescription());
+                team.setStartDate(dto.getStartDate());
+                team.setEndDate(dto.getEndDate());
+
+                teamJpaRepository.save(team);
+                return TeamDtoConverter.toResponseDto(team);
+        }
+
+        // 팀 삭제
+        public void deleteTeam(Integer teamId, Integer userId) {
+                Team team = teamJpaRepository.findById(teamId)
+                    .orElseThrow(() -> new BadRequestException("존재하지 않는 팀입니다."));
+
+                boolean isAdmin = teamUserJpaRepository.existsByTeamAndUserAndTeamUserRole(team,
+                    userJpaRepository.findById(userId).orElseThrow(() -> new BadRequestException("유저를 찾을 수 없습니다.")),
+                    TeamUserRole.ADMIN);
+                if (!isAdmin) {
+                        throw new BadRequestException("관리자만 팀을 삭제할 수 있습니다.");
+                }
+
+                teamJpaRepository.delete(team);
         }
 
 }
