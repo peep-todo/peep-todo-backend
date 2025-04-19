@@ -49,7 +49,6 @@ public class TeamService {
                                 .teamToken(teamToken)
                                 .inviteLink("https://localhost:8080/invite/" + teamToken)
                                 .inviteExpiry(LocalDateTime.now().plusDays(7))
-                                .isDeleted(false)
                                 .build();
 
                 team = teamJpaRepository.save(team);
