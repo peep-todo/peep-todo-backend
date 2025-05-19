@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/peep_todo
+    username: ${db.username}
+    password: ${db.password}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  address: 0.0.0.0
+  port: 8080
+
+custom:
+  jwt:
+    secretKey: ${jwt.secret}
+    expirationTime: 3600000
+    refresh: 604800000
